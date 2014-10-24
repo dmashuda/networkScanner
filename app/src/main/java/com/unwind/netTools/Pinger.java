@@ -1,11 +1,14 @@
 package com.unwind.netTools;
 
 
+import com.unwind.netTools.model.Device;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,7 +19,7 @@ public class Pinger {
 	private static String IPADDRESS = "192.254.0";
 
 	
-	public static List<InetAddress> getDevicesOnNetwork(String subnet){
+	public static List<Device> getDevicesOnNetwork(String subnet){
 		LinkedList<InetAddress> resAddresses = new LinkedList<InetAddress>();
 		DiscoverRunner[] tasks = new DiscoverRunner[NUMTHREADS];
 		
@@ -54,8 +57,15 @@ public class Pinger {
 			}
 		
 		}
+
+        ArrayList<Device> foundDev = new ArrayList<Device>(resAddresses.size());
+
+        for (InetAddress a: resAddresses){
+            foundDev.add(new Device(a.getHostAddress(), getMacFromArpCache(a.getHostAddress()), a.getCanonicalHostName()));
+        }
+
 		
-		return resAddresses;
+		return foundDev;
 	}
 	
 	/**

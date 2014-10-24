@@ -1,9 +1,12 @@
 package com.unwind.networkmonitor;
 
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -17,6 +20,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.*;
 import com.unwind.netTools.Pinger;
+import com.unwind.netTools.model.Device;
 
 import java.net.InetAddress;
 import java.util.ArrayList;
@@ -26,7 +30,7 @@ import java.util.List;
 public class Scan extends ActionBarActivity {
 
     private AdView adView;
-    private  NetDeviceAdapter adapter = new NetDeviceAdapter(new ArrayList<InetAddress>(15), R.layout.device_fragment, this);;
+    private  NetDeviceAdapter adapter = new NetDeviceAdapter(new ArrayList<Device>(15), R.layout.device_fragment, this);;
 
     private static final String AD_UNIT_ID = "ca-app-pub-5497930890633928/3668252094";
 
@@ -52,23 +56,28 @@ public class Scan extends ActionBarActivity {
         adView.loadAd(request);
 
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        //recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         recyclerView.setHasFixedSize(false);
         recyclerView.setAdapter(adapter);
 
-        Button button = (Button) findViewById(R.id.testBtn);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               AsyncScan scan = new AsyncScan();
-                scan.execute(adapter);
 
-
-
-            }
-        });
+        //rescan();
     }
+    private void rescan(){
 
+        ConnectivityManager connManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+        if (mWifi.isConnected() && mWifi.isAvailable()){
+            AsyncScan scan = new AsyncScan();
+            scan.execute(adapter);
+        }else {
+            Toast.makeText(this, "Not connected to wifi, no scanning permitted", Toast.LENGTH_LONG).show();
+        }
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -83,6 +92,12 @@ public class Scan extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+
+        switch (id){
+            case R.id.action_refresh:
+                rescan();
+            default:
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -111,18 +126,22 @@ public class Scan extends ActionBarActivity {
         super.onDestroy();
     }
 
-    private static class AsyncScan extends AsyncTask<NetDeviceAdapter, Void, List<InetAddress>> {
+
+    private static class AsyncScan extends AsyncTask<NetDeviceAdapter, Void, List<Device>> {
 
         private NetDeviceAdapter adapter;
         @Override
-        protected List<InetAddress> doInBackground(NetDeviceAdapter... voids) {
-            List<InetAddress> addresses = Pinger.getDevicesOnNetwork("192.168.5");
+        protected List<Device> doInBackground(NetDeviceAdapter... voids) {
+
+
+
+            List<Device> addresses = Pinger.getDevicesOnNetwork("192.168.5");
             adapter = voids[0];
             return addresses;
         }
 
         @Override
-        protected void onPostExecute(List<InetAddress> inetAddresses) {
+        protected void onPostExecute(List<Device> inetAddresses) {
             super.onPostExecute(inetAddresses);
             adapter.setAddresses(inetAddresses);
             adapter.notifyDataSetChanged();

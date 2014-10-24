@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.LayoutInflater;
 import android.widget.TextView;
 
+import com.unwind.netTools.model.Device;
+
 import java.net.InetAddress;
 import java.util.List;
 
@@ -16,14 +18,14 @@ import java.util.List;
 public class NetDeviceAdapter extends RecyclerView.Adapter<NetDeviceAdapter.ViewHolder> {
 
 
-    private List<InetAddress> addresses;
+    private List<Device> addresses;
     private int rowLayout;
 
 
 
     private Context mContext;
 
-    public NetDeviceAdapter(List<InetAddress> addresses, int rowLayout, Context mContext) {
+    public NetDeviceAdapter(List<Device> addresses, int rowLayout, Context mContext) {
         this.addresses = addresses;
         this.rowLayout = rowLayout;
         this.mContext = mContext;
@@ -38,10 +40,13 @@ public class NetDeviceAdapter extends RecyclerView.Adapter<NetDeviceAdapter.View
 
     @Override
     public void onBindViewHolder(NetDeviceAdapter.ViewHolder viewHolder, int i) {
-        InetAddress address = addresses.get(i);
-        viewHolder.deviceName.setText(address.getCanonicalHostName());
-        viewHolder.deviceIp.setText(address.getHostAddress());
-
+        Device address = addresses.get(i);
+        viewHolder.deviceName.setText(address.getDeviceName());
+        viewHolder.deviceIp.setText("");
+        viewHolder.macAdd.setText("");
+        /*viewHolder.deviceIp.setText(address.getIpAddress());
+        viewHolder.macAdd.setText(address.getMacAddress());
+        */
     }
 
     @Override
@@ -53,7 +58,7 @@ public class NetDeviceAdapter extends RecyclerView.Adapter<NetDeviceAdapter.View
      *
      * @return
      */
-    public List<InetAddress> getAddresses() {
+    public List<Device> getAddresses() {
         return addresses;
     }
 
@@ -61,7 +66,7 @@ public class NetDeviceAdapter extends RecyclerView.Adapter<NetDeviceAdapter.View
      *
      * @param addresses
      */
-    public void setAddresses(List<InetAddress> addresses) {
+    public void setAddresses(List<Device> addresses) {
         this.addresses = addresses;
     }
 
@@ -77,11 +82,13 @@ public class NetDeviceAdapter extends RecyclerView.Adapter<NetDeviceAdapter.View
 
         public TextView deviceName;
         public TextView deviceIp;
+        public TextView macAdd;
 
         public ViewHolder(View itemView) {
             super(itemView);
             deviceName = (TextView) itemView.findViewById(R.id.deviceName);
             deviceIp = (TextView) itemView.findViewById(R.id.deviceIp);
+            macAdd = (TextView)itemView.findViewById(R.id.macAdd);
         }
     }
 }
