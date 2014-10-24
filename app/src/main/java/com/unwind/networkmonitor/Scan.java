@@ -1,8 +1,11 @@
 package com.unwind.networkmonitor;
 
+import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,12 +19,14 @@ import com.google.android.gms.ads.*;
 import com.unwind.netTools.Pinger;
 
 import java.net.InetAddress;
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class Scan extends ActionBarActivity {
 
     private AdView adView;
+    private  NetDeviceAdapter adapter = new NetDeviceAdapter(new ArrayList<InetAddress>(15), R.layout.device_fragment, this);;
 
     private static final String AD_UNIT_ID = "ca-app-pub-5497930890633928/3668252094";
 
@@ -43,21 +48,22 @@ public class Scan extends ActionBarActivity {
 
         AdRequest request = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
 
+
         adView.loadAd(request);
 
+        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.list);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(false);
+        recyclerView.setAdapter(adapter);
 
         Button button = (Button) findViewById(R.id.testBtn);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "test", Toast.LENGTH_SHORT).show();
-                List<InetAddress> addresses = Pinger.getDevicesOnNetwork("192.254.0");
-                String build = new String();
-                for(InetAddress i: addresses){
-                    build+=i.getHostName()+"\n";
-                }
+               AsyncScan scan = new AsyncScan();
+                scan.execute(adapter);
 
-                Toast.makeText(getApplicationContext(), build, Toast.LENGTH_SHORT).show();
+
 
             }
         });
@@ -103,5 +109,25 @@ public class Scan extends ActionBarActivity {
             adView.destroy();
         }
         super.onDestroy();
+    }
+
+    private static class AsyncScan extends AsyncTask<NetDeviceAdapter, Void, List<InetAddress>> {
+
+        private NetDeviceAdapter adapter;
+        @Override
+        protected List<InetAddress> doInBackground(NetDeviceAdapter... voids) {
+            List<InetAddress> addresses = Pinger.getDevicesOnNetwork("192.168.5");
+            adapter = voids[0];
+            return addresses;
+        }
+
+        @Override
+        protected void onPostExecute(List<InetAddress> inetAddresses) {
+            super.onPostExecute(inetAddresses);
+            adapter.setAddresses(inetAddresses);
+            adapter.notifyDataSetChanged();
+
+        }
+
     }
 }
