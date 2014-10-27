@@ -16,46 +16,50 @@
 
         <TextView
             android:id="@+id/deviceName"
-            android:gravity="center"
-            android:background="?android:selectableItemBackground"
-            android:focusable="true"
-            android:clickable="true"
-            android:layout_width="match_parent"
+            android:text="Name"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:textSize="25sp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:layout_centerInParent="true"
-            android:textColor="@android:color/white"
-            android:text="deviceName"
-            />
+            android:paddingBottom="10dp"
+            android:paddingTop="5dp"/>
 
         <TextView
             android:id="@+id/deviceIp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:background="?android:selectableItemBackground"
-            android:focusable="true"
-            android:clickable="true"
-            android:layout_width="match_parent"
+            android:text="DeviceIp"
+            android:textSize="14sp"
+            android:layout_toRightOf="@+id/ipLabel"
+            android:layout_alignBottom="@+id/ipLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/ipLabel"
+            android:text="Ip Address:"
+            android:layout_below="@+id/deviceName"
+            android:textSize="14sp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
-            android:textColor="@android:color/white"
-            android:text="deviceIp"
-            />
+            android:textColor="@color/abc_primary_text_material_light"/>
 
         <TextView
             android:id="@+id/macAdd"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="false"
-            android:background="?android:selectableItemBackground"
-            android:layout_below="@+id/deviceName"
-            android:focusable="true"
-            android:clickable="true"
+            android:text="MacAddress"
+            android:textSize="14sp"
+            android:layout_toRightOf="@+id/macLabel"
+            android:layout_alignBottom="@+id/macLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/macLabel"
+            android:text="Mac Address:"
+            android:layout_below="@+id/ipLabel"
+            android:textSize="14sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
-            android:textColor="@android:color/white"
-            android:text="mac"
-            />
+            android:textColor="@color/abc_primary_text_material_light"/>
 
 
     </RelativeLayout>

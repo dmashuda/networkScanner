@@ -10,11 +10,15 @@ import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.format.Formatter;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -70,15 +74,30 @@ public class Scan extends ActionBarActivity {
 
         adView.loadAd(request);
 
+        Display display = getWindowManager().getDefaultDisplay();
+        DisplayMetrics outMetrics = new DisplayMetrics ();
+        display.getMetrics(outMetrics);
+
+        float density  = getResources().getDisplayMetrics().density;
+        float dpHeight = outMetrics.heightPixels / density;
+        float dpWidth  = outMetrics.widthPixels / density;
+
+        int numrows = (int) Math.floor(dpWidth / 300);
+
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.list);
 
-        //recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(numrows, StaggeredGridLayoutManager.VERTICAL);
+        manager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
+        recyclerView.setLayoutManager(manager);
         recyclerView.setHasFixedSize(false);
         recyclerView.setAdapter(adapter);
 
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        //rescan();
+
+
+
+        rescan();
     }
     private void rescan(){
 
@@ -86,9 +105,9 @@ public class Scan extends ActionBarActivity {
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
         if (mWifi.isConnected() && mWifi.isAvailable()){
-            AsyncScan scan = new AsyncScan(this);
+            AsyncScan scan = new AsyncScan(ProgressDialog.show(this,"Scanning", "scanning your network"));
             scan.execute(adapter);
-            //ProgressDialog.show(this,"Scanning", "scanning your network");
+
         }else {
             Toast.makeText(this, "Not connected to wifi, no scanning permitted", Toast.LENGTH_LONG).show();
         }
@@ -150,14 +169,14 @@ public class Scan extends ActionBarActivity {
                 ( i & 0xFF) ;
     }
 
-    private static class AsyncScan extends AsyncTask<NetDeviceAdapter, ProgressDialog, List<Device>> {
+    private static class AsyncScan extends AsyncTask<NetDeviceAdapter, Void, List<Device>> {
 
         private NetDeviceAdapter adapter;
-        private Activity context;
+        private ProgressDialog mDialog;
 
-        public AsyncScan(Activity context){
+        public AsyncScan(ProgressDialog dialog){
             super();
-            this.context = context;
+            this.mDialog = dialog;
         }
         @Override
         protected List<Device> doInBackground(NetDeviceAdapter... voids) {
@@ -182,16 +201,13 @@ public class Scan extends ActionBarActivity {
             super.onPostExecute(inetAddresses);
             adapter.setAddresses(inetAddresses);
             adapter.notifyDataSetChanged();
+            mDialog.cancel();
         }
 
         @Override
-        protected void onProgressUpdate(ProgressDialog... values) {
+        protected void onProgressUpdate(Void... values) {
             super.onProgressUpdate(values);
-            if (values[0]!=null){
-                //dialog = values[0];
 
-                //dialog.setIndeterminate(true);
-            }
         }
 
 

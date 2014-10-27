@@ -42,11 +42,13 @@ public class NetDeviceAdapter extends RecyclerView.Adapter<NetDeviceAdapter.View
     public void onBindViewHolder(NetDeviceAdapter.ViewHolder viewHolder, int i) {
         Device address = addresses.get(i);
         viewHolder.deviceName.setText(address.getDeviceName());
+        /*
         viewHolder.deviceIp.setText("");
         viewHolder.macAdd.setText("");
-        /*viewHolder.deviceIp.setText(address.getIpAddress());
-        viewHolder.macAdd.setText(address.getMacAddress());
         */
+        viewHolder.deviceIp.setText(address.getIpAddress());
+        viewHolder.macAdd.setText(address.getMacAddress());
+
     }
 
     @Override
@@ -91,4 +93,5 @@ public class NetDeviceAdapter extends RecyclerView.Adapter<NetDeviceAdapter.View
             macAdd = (TextView)itemView.findViewById(R.id.macAdd);
         }
     }
+
 }
