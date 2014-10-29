@@ -22,6 +22,7 @@
             android:textSize="25sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
             android:paddingBottom="10dp"
             android:paddingTop="5dp"/>
 
@@ -32,6 +33,7 @@
             android:layout_toRightOf="@+id/ipLabel"
             android:layout_alignBottom="@+id/ipLabel"
             android:layout_width="wrap_content"
+            android:textColor="#FFFFFF"
             android:layout_height="wrap_content"/>
 
         <TextView
@@ -50,6 +52,7 @@
             android:layout_toRightOf="@+id/macLabel"
             android:layout_alignBottom="@+id/macLabel"
             android:layout_width="wrap_content"
+            android:textColor="#FFFFFF"
             android:layout_height="wrap_content"/>
 
         <TextView
