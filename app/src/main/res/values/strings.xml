@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Network Monitor</string>
+    <string name="app_name">Network Scanner</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_display_device">DisplayDevice</string>
+    <string name="scanning">Scanning</string>
+    <string name="scanning_your_network">scanning your network</string>
+    <string name="not_connected_error">Not connected to wifi, no scanning permitted</string>
+    <string name="ipLabel">Ip Address:</string>
+    <string name="mac_label">Mac Address:</string>
+    <string name="deviceName">Name</string>
+    <string name="ipPlaceholder">DeviceIp</string>
+    <string name="macHolder">MacAddress</string>
 
 </resources>

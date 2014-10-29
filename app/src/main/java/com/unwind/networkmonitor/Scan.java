@@ -53,7 +53,7 @@ public class Scan extends ActionBarActivity {
     private AdView adView;
     private  NetDeviceAdapter adapter = new NetDeviceAdapter(new ArrayList<Device>(15), R.layout.device_fragment, this);
 
-    private static final String AD_UNIT_ID = "ca-app-pub-5497930890633928/3668252094";
+    private static final String AD_UNIT_ID = "ca-app-pub-5379976259934487/3504192255";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,11 +105,11 @@ public class Scan extends ActionBarActivity {
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
         if (mWifi.isConnected() && mWifi.isAvailable()){
-            AsyncScan scan = new AsyncScan(ProgressDialog.show(this,"Scanning", "scanning your network"));
+            AsyncScan scan = new AsyncScan(ProgressDialog.show(this, getString(R.string.scanning), getString(R.string.scanning_your_network)));
             scan.execute(adapter);
 
         }else {
-            Toast.makeText(this, "Not connected to wifi, no scanning permitted", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.not_connected_error), Toast.LENGTH_LONG).show();
         }
 
     }

@@ -16,7 +16,7 @@
 
         <TextView
             android:id="@+id/deviceName"
-            android:text="Name"
+            android:text="@string/deviceName"
             android:layout_centerHorizontal="true"
             android:layout_alignParentTop="true"
             android:textSize="25sp"
@@ -28,7 +28,7 @@
 
         <TextView
             android:id="@+id/deviceIp"
-            android:text="DeviceIp"
+            android:text="@string/ipPlaceholder"
             android:textSize="14sp"
             android:layout_toRightOf="@+id/ipLabel"
             android:layout_alignBottom="@+id/ipLabel"
@@ -38,7 +38,7 @@
 
         <TextView
             android:id="@+id/ipLabel"
-            android:text="Ip Address:"
+            android:text="@string/ipLabel"
             android:layout_below="@+id/deviceName"
             android:textSize="14sp"
             android:layout_width="wrap_content"
@@ -47,7 +47,7 @@
 
         <TextView
             android:id="@+id/macAdd"
-            android:text="MacAddress"
+            android:text="@string/macHolder"
             android:textSize="14sp"
             android:layout_toRightOf="@+id/macLabel"
             android:layout_alignBottom="@+id/macLabel"
@@ -57,7 +57,7 @@
 
         <TextView
             android:id="@+id/macLabel"
-            android:text="Mac Address:"
+            android:text="@string/mac_label"
             android:layout_below="@+id/ipLabel"
             android:textSize="14sp"
             android:layout_width="wrap_content"
