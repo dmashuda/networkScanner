@@ -1,59 +1,39 @@
 package com.unwind.networkmonitor;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
-import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.text.format.Formatter;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 
-import com.google.android.gms.ads.*;
-import com.google.android.gms.drive.internal.ad;
 import com.unwind.netTools.Pinger;
 import com.unwind.netTools.model.Device;
 
 import org.apache.http.conn.util.InetAddressUtils;
 
 import java.net.InetAddress;
-import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Enumeration;
 import java.util.List;
 
 
 public class Scan extends ActionBarActivity {
 
-    private AdView adView;
     private  NetDeviceAdapter adapter = new NetDeviceAdapter(new ArrayList<Device>(15), R.layout.device_fragment, this);
 
-    private static final String AD_UNIT_ID = "ca-app-pub-5379976259934487/3504192255";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,18 +41,8 @@ public class Scan extends ActionBarActivity {
         setContentView(R.layout.activity_scan);
 
 
-
-        adView = new AdView(this);
-        adView.setAdSize(AdSize.BANNER);
-        adView.setAdUnitId(AD_UNIT_ID);
-
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.mainView);
-        mainLayout.addView(adView, 0);
 
-        AdRequest request = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
-
-
-        adView.loadAd(request);
 
         Display display = getWindowManager().getDefaultDisplay();
         DisplayMetrics outMetrics = new DisplayMetrics ();
@@ -140,24 +110,15 @@ public class Scan extends ActionBarActivity {
     @Override
     public void onResume(){
         super.onResume();
-        if (adView != null) {
-            adView.resume();
-        }
     }
 
     @Override
     public void onPause() {
-        if (adView != null) {
-            adView.pause();
-        }
         super.onPause();
     }
     @Override
     public void onDestroy() {
-        // Destroy the AdView.
-        if (adView != null) {
-            adView.destroy();
-        }
+        // Destroy
         super.onDestroy();
     }
 

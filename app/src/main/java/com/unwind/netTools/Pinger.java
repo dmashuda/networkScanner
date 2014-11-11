@@ -16,7 +16,6 @@ import java.util.List;
 public class Pinger {
 	
 	private static final int NUMTHREADS = 254; 
-	private static String IPADDRESS = "192.254.0";
 
 	
 	public static List<Device> getDevicesOnNetwork(String subnet){
