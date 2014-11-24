@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Network Scanner</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Nastavení</string>
+    <string name="title_activity_display_device">DisplayDevice</string>
+    <string name="scanning">Prohledávám</string>
+    <string name="scanning_your_network">prohledává se vaše síť</string>
+    <string name="not_connected_error">Wifi připojení není dostupné, nelze prohledávat</string>
+    <string name="ipLabel">IP Adresa:</string>
+    <string name="mac_label">MAC Adresa:</string>
+    <string name="deviceName">Jméno</string>
+    <string name="ipPlaceholder">DeviceIp</string>
+    <string name="macHolder">MacAddress</string>
+
+</resources>
