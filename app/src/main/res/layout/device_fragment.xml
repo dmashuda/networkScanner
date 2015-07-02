@@ -19,7 +19,7 @@
             android:text="@string/deviceName"
             android:layout_centerHorizontal="true"
             android:layout_alignParentTop="true"
-            android:textSize="25sp"
+            android:textSize="18sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF"
@@ -58,6 +58,7 @@
         <TextView
             android:id="@+id/macLabel"
             android:text="@string/mac_label"
+            android:paddingTop="10dp"
             android:layout_below="@+id/ipLabel"
             android:textSize="14sp"
             android:layout_width="wrap_content"
