@@ -6,6 +6,9 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDialog;
+import android.support.v7.internal.widget.AppCompatPopupWindow;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -30,7 +33,7 @@ import java.util.Collections;
 import java.util.List;
 
 
-public class Scan extends ActionBarActivity {
+public class Scan extends AppCompatActivity {
 
     private  NetDeviceAdapter adapter = new NetDeviceAdapter(new ArrayList<Device>(15), R.layout.device_fragment, this);
 
@@ -75,7 +78,11 @@ public class Scan extends ActionBarActivity {
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
         if (mWifi.isConnected() && mWifi.isAvailable()){
-            AsyncScan scan = new AsyncScan(ProgressDialog.show(this, getString(R.string.scanning), getString(R.string.scanning_your_network)));
+             AppCompatDialog dialog = new AppCompatDialog(this);
+            dialog.setTitle(R.string.scanning);
+            dialog.setCancelable(false);
+            dialog.show();
+            AsyncScan scan = new AsyncScan(dialog, getString(R.string.scanning_your_network));
             scan.execute(adapter);
 
         }else {
@@ -133,12 +140,14 @@ public class Scan extends ActionBarActivity {
     private static class AsyncScan extends AsyncTask<NetDeviceAdapter, Void, List<Device>> {
 
         private NetDeviceAdapter adapter;
-        private ProgressDialog mDialog;
+        private AppCompatDialog mDialog;
 
-        public AsyncScan(ProgressDialog dialog){
+
+        public AsyncScan(AppCompatDialog dialog, String string) {
             super();
             this.mDialog = dialog;
         }
+
         @Override
         protected List<Device> doInBackground(NetDeviceAdapter... voids) {
 

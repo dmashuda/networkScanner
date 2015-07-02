@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/NetworkMonitor.iml" filepath="$PROJECT_DIR$/NetworkMonitor.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app2/app2.iml" filepath="$PROJECT_DIR$/app2/app2.iml" />
-      <module fileurl="file://$PROJECT_DIR$/networkmonitorandroid.iml" filepath="$PROJECT_DIR$/networkmonitorandroid.iml" />
+      <module fileurl="file://$PROJECT_DIR$/networkScanner.iml" filepath="$PROJECT_DIR$/networkScanner.iml" />
     </modules>
   </component>
 </project>
-
